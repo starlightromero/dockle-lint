@@ -41,6 +41,13 @@ jobs:
           echo MAJOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\..*//') >> $GITHUB_ENV
           echo MINOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*.//' -e 's/\.[0-9][0-9]*//') >> $GITHUB_ENV
           echo PATCH_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*\.//g') >> $GITHUB_ENV
+
+      - name: Print Tag Names
+        run: |
+          echo ${{ env.LASTEST_TAG }}
+          echo ${{ env.MAJOR_VERSION_TAG }}
+          echo ${{ env.MINOR_VERSION_TAG }}
+          echo ${{ env.PATCH_VERSION_TAG }}
       
       # - name: Build and push
       #   uses: docker/build-push-action@v2
