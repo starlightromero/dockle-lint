@@ -3,7 +3,7 @@ name: Build and Push to Dockerhub
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v**.**.**'
     paths-ignore:
       # - '**.yml'
       - '**.md'
