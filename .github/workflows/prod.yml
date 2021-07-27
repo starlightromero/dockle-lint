@@ -19,19 +19,19 @@ jobs:
           echo "##[set-output name=version_tag;]$GITHUB_REPOSITORY:${GITHUB_REF#$"refs/tags/v"}"
           echo "##[set-output name=latest_tag;]$GITHUB_REPOSITORY:latest"
       
-      - name: Print Version
-        run: |
-          echo ${{ steps.version_step.outputs.version_tag }}
-          echo ${{ steps.version_step.outputs.latest_tag }}
+      # - name: Print Version
+      #   run: |
+      #     echo ${{ steps.version_step.outputs.version_tag }}
+      #     echo ${{ steps.version_step.outputs.latest_tag }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      # - name: Login to DockerHub
-      #   uses: docker/login-action@v1
-      #   with:
-      #     username: ${{ secrets.DOCKERHUB_USERNAME }}
-      #     password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Prepare Tag Names
         run: |
@@ -40,21 +40,19 @@ jobs:
           echo MINOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\.[0-9]*[0-9]*$//') >> $GITHUB_ENV
           echo PATCH_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//') >> $GITHUB_ENV
 
-      - name: Print Tag Names
-        run: |
-          echo ${{ env.LASTEST_TAG }}
-          echo ${{ env.MAJOR_VERSION_TAG }}
-          echo ${{ env.MINOR_VERSION_TAG }}
-          echo ${{ env.PATCH_VERSION_TAG }}
+      # - name: Print Tag Names
+      #   run: |
+      #     echo ${{ env.LASTEST_TAG }}
+      #     echo ${{ env.MAJOR_VERSION_TAG }}
+      #     echo ${{ env.MINOR_VERSION_TAG }}
+      #     echo ${{ env.PATCH_VERSION_TAG }}
       
-      # - name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     push: true
-      #     tags: |
-      #       ${{ env.LASTEST_TAG }}
-      #       ${{ env.MAJOR_VERSION_TAG }}
-      #       ${{ env.MINOR_VERSION_TAG }}
-      #       ${{ env.PATCH_VERSION_TAG }}
-      #     build-args: |
-      #       ${{ steps.version_step.outputs.version }}
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+            ${{ env.LASTEST_TAG }}
+            ${{ env.MAJOR_VERSION_TAG }}
+            ${{ env.MINOR_VERSION_TAG }}
+            ${{ env.PATCH_VERSION_TAG }}
