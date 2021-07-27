@@ -35,12 +35,12 @@ jobs:
       #     username: ${{ secrets.DOCKERHUB_USERNAME }}
       #     password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # - name: Prepare Tag Names
-      #   run: |
-      #     echo LASTEST_TAG=$(echo ${{ steps.version_step.outputs.latest_tag  }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
-      #     echo MAJOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\..*//') >> $GITHUB_ENV
-      #     echo MINOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*.//' -e 's/\.[0-9][0-9]*//') >> $GITHUB_ENV
-      #     echo PATCH_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*\.//g') >> $GITHUB_ENV
+      - name: Prepare Tag Names
+        run: |
+          echo LASTEST_TAG=$(echo ${{ steps.version_step.outputs.latest_tag  }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
+          echo MAJOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\..*//') >> $GITHUB_ENV
+          echo MINOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*.//' -e 's/\.[0-9][0-9]*//') >> $GITHUB_ENV
+          echo PATCH_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/[0-9][0-9]*\.//g') >> $GITHUB_ENV
       
       # - name: Build and push
       #   uses: docker/build-push-action@v2
