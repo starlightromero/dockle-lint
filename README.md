@@ -1,6 +1,6 @@
-# Distroless Golang IP Geolocator
+# Dockle Lint
 
-This application serves to showcase small Docker images via a simple API that has one route. A GET request to the / route will make an API call to in order to get the user's IP address, ISP, and location data, including the user's latitude and longitude to the millionth decimal place. All this data will be returned.
+This application serves to showcase Docker linting via CI/CD pipeline. The app is a simple API that has one route. A GET request to the / route will make an API call to in order to get the user's IP address, ISP, and location data, including the user's latitude and longitude to the millionth decimal place. All this data will be returned.
 
 If you want to download the code and try it out yourself, you will need to sign up for a free API key from:
 
