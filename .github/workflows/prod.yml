@@ -35,7 +35,7 @@ jobs:
 
       - name: Prepare Tag Names
         run: |
-          echo LASTEST_TAG=$(echo ${{ steps.version_step.outputs.latest_tag  }} | tr '[:upper:]' '[:lower:]') >> $GITHUB_ENV
+          echo LASTEST_TAG=$(echo ${{ steps.version_step.outputs.latest_tag  }} >> $GITHUB_ENV
           echo MAJOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\..*//') >> $GITHUB_ENV
           echo MINOR_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//' -e 's/\.[0-9]*[0-9]*$//') >> $GITHUB_ENV
           echo PATCH_VERSION_TAG=$(echo ${{ steps.version_step.outputs.version_tag }} | sed -e 's/v//') >> $GITHUB_ENV
