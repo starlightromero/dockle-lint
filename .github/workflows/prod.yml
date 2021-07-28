@@ -50,7 +50,8 @@ jobs:
 
       - name: Build Images
         run: |
-          DOCKER_BUILDKIT=1 docker build -t ${{ env.LASTEST_TAG }} -t ${{ env.MAJOR_VERSION_TAG }} -t ${{ env.MINOR_VERSION_TAG }} -t ${{ env.PATCH_VERSION_TAG }} --secret id=thepasswd,src=${{ secrets.PASSWD }} .
+          docker secret create passwd ${{ secrets.PASSWD }}
+          DOCKER_BUILDKIT=1 docker build -t ${{ env.LASTEST_TAG }} -t ${{ env.MAJOR_VERSION_TAG }} -t ${{ env.MINOR_VERSION_TAG }} -t ${{ env.PATCH_VERSION_TAG }} --secret passwd .
 
       - name: Scan Image with Dockle
         run: |
