@@ -41,8 +41,12 @@ Run the application!
 
 ## Makefile Commands
 
-`build`: Build Geolocator app
+`build`: Build app
 
-`start`: Start Geolocator app at port 8080
+`start`: Start app at port 8080
 
-`stop`: Stop Geolocator app
+`build-compose`: Build app with docker-compose
+
+`start-compose`: Start app with docker-compose
+
+`stop-compose`: Stop app with docker-compose
