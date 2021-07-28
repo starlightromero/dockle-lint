@@ -1,9 +1,9 @@
 version: "3.9"
 services:
-  geolocation:
-    image: geolocation:$TAG
+  dockle-lint:
+    image: dockle-lint:$TAG
     build: .
-    container_name: geolocation
+    container_name: dockle-lint
     env_file:
       - .env
     ports:
