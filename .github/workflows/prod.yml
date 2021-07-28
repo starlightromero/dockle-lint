@@ -5,6 +5,7 @@ on:
     tags:
       - 'v**.**.**'
     paths-ignore:
+      - '.gitignore'
       - '**.yml'
       - '**.md'
       - 'Makefile'
