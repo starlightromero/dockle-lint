@@ -9,10 +9,10 @@ start:
 	${buildkit} docker run --env-file .env -p 8080:8080 --name dockle-lint dockle-lint
 
 build-compose:
-	TAG=$$(date +%m%d%H%M%S) ${compose} build
+	${buildkit} ${tag} ${compose} build
 
 start-compose:
-	TAG=$$(date +%m%d%H%M%S) ${compose} up
+	${buildkit} ${tag} ${compose} up
 
 stop-compose:
 	${compose} down
