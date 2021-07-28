@@ -5,4 +5,5 @@
 *.yml
 Dockerfile*
 Makefile
+*.txt
 *.md
