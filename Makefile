@@ -1,10 +1,18 @@
+buildkit = DOCKER_BUILDKIT=1
 compose = docker-compose
+tag = TAG=$$(date +%m%d%H%M%S)
 
 build:
-	TAG=$$(date +%m%d%H%M%S) ${compose} build
+	${buildkit} docker build -t dockle-lint --secret id=passwd,src=passwd.txt .
 
 start:
-	TAG=$$(date +%m%d%H%M%S) ${compose}
+	${buildkit} docker run --env-file .env -p 8080:8080 --name dockle-lint dockle-lint
 
-stop:
+build-compose:
+	TAG=$$(date +%m%d%H%M%S) ${compose} build
+
+start-compose:
+	TAG=$$(date +%m%d%H%M%S) ${compose} up
+
+stop-compose:
 	${compose} down
