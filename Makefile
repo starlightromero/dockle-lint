@@ -33,11 +33,14 @@ add-version:
 commit-version:
 	git commit -m "[update] VERSION"
 
+tag:
+	git tag v$$(cat VERSION)
+
 push:
 	git push && git push --tags
 
-push-major: update-major-version add-version commit-version push
+push-major: update-major-version add-version commit-version tag push
 
-push-minor: update-minor-version add-version commit-version push
+push-minor: update-minor-version add-version commit-version tag push
 
-push-patch: update-patch-version add-version commit-version push
+push-patch: update-patch-version add-version commit-version tag push
