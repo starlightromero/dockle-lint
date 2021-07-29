@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:1.2
 
-FROM golang:1.16.6-alpine as build
+FROM golang:1.16.6-alpine as base
 
 SHELL [ "/bin/ash", "-eo", "pipefail", "-c" ]
 
@@ -12,26 +12,40 @@ RUN sed -ni "1p" /etc/passwd && \
     sed -ni "1p" /etc/shadow && \
     sed -ni "1p" /etc/group
 
+FROM golang:1.16.6-alpine as geolocation
+
 WORKDIR /app
 
-COPY go.mod .
-COPY go.sum .
+COPY geolocation/go.* .
 
 RUN go mod download
 
-COPY . .
+COPY geolocation/* .
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
+
+FROM golang:1.16.6-alpine as healthcheck
+
+WORKDIR /app
+
+COPY healthcheck/go.* .
+
+RUN go mod download
+
+COPY healthcheck/* .
 
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
 FROM gcr.io/distroless/static:nonroot
 
-COPY --from=build /app/geolocation /usr/bin/geolocation
-COPY --from=build /etc/passwd /etc/passwd
-COPY --from=build /etc/shadow /etc/shadow
-COPY --from=build /etc/group /etc/group
+COPY --from=base /etc/passwd /etc/passwd
+COPY --from=base /etc/shadow /etc/shadow
+COPY --from=base /etc/group /etc/group
+COPY --from=geolocation /app/geolocation /usr/bin/geolocation
+COPY --from=healthcheck /app/healthcheck /usr/bin/healthcheck
 
 USER 1000
 
-HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=2 CMD curl -f http://localhost/ || exit 1
+HEALTHCHECK --interval=1s --timeout=1s --start-period=2s --retries=2 CMD [ "healthcheck" ]
 
-ENTRYPOINT ["/usr/bin/geolocation"]
+ENTRYPOINT [ "/usr/bin/geolocation" ]
