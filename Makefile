@@ -18,6 +18,15 @@ start-compose:
 stop-compose:
 	${compose} down
 
+update-major-version:
+	cat VERSION | sed -e "s/[0-9]*[0-9]*\./$$(($$(cat VERSION | sed -e 's/\.[0-9]*[0-9]*//g')+1))./" > VERSION
+
+update-minor-version:
+	cat VERSION | sed -e "s/\.[0-9]*[0-9]*\./.$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//' -e 's/\.[0-9]*[0-9]*//')+1))./" > VERSION
+
+update-patch-version:
+	cat VERSION | sed -e "s/[0-9]*[0-9]*$$/$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//g')+1))/" > VERSION
+
 add-version:
 	git add VERSION
 
@@ -27,20 +36,8 @@ commit-version:
 push:
 	git push && git push --tags
 
-push-major:
-	cat VERSION | sed -e "s/[0-9]*[0-9]*\./$$(($$(cat VERSION | sed -e 's/\.[0-9]*[0-9]*//g')+1))./" > VERSION
-	add-version
-	commit-version
-	push
+push-major: update-major-version add-version commit-version push
 
-push-minor:
-	cat VERSION | sed -e "s/\.[0-9]*[0-9]*\./.$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//' -e 's/\.[0-9]*[0-9]*//')+1))./" > VERSION
-	add-version
-	commit-version
-	push
+push-minor: update-minor-version add-version commit-version push
 
-push-patch:
-	cat VERSION | sed -e "s/[0-9]*[0-9]*$$/$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//g')+1))/" > VERSION
-	add-version
-	commit-version
-	push
+push-patch: update-patch-verion add-version commit-version push
