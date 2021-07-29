@@ -28,19 +28,19 @@ push:
 	git push && git push --tags
 
 push-major:
+	cat VERSION | sed -e "s/[0-9]*[0-9]*\./$$(($$(cat VERSION | sed -e 's/\.[0-9]*[0-9]*//g')+1))./" > VERSION
 	add-version
 	commit-version
-	cat VERSION | sed -e "s/[0-9]*[0-9]*\./$$(($$(cat VERSION | sed -e 's/\.[0-9]*[0-9]*//g')+1))./" > VERSION
 	push
 
 push-minor:
+	cat VERSION | sed -e "s/\.[0-9]*[0-9]*\./.$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//' -e 's/\.[0-9]*[0-9]*//')+1))./" > VERSION
 	add-version
 	commit-version
-	cat VERSION | sed -e "s/\.[0-9]*[0-9]*\./.$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//' -e 's/\.[0-9]*[0-9]*//')+1))./" > VERSION
 	push
 
 push-patch:
+	cat VERSION | sed -e "s/[0-9]*[0-9]*$$/$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//g')+1))/" > VERSION
 	add-version
 	commit-version
-	cat VERSION | sed -e "s/[0-9]*[0-9]*$$/$$(($$(cat VERSION | sed -e 's/[0-9]*[0-9]*\.//g')+1))/" > VERSION
 	push
