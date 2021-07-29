@@ -40,4 +40,4 @@ push-major: update-major-version add-version commit-version push
 
 push-minor: update-minor-version add-version commit-version push
 
-push-patch: update-patch-verion add-version commit-version push
+push-patch: update-patch-version add-version commit-version push
